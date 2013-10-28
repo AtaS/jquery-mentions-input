@@ -7,7 +7,7 @@
  * Using underscore.js
  *
  * See: https://github.com/zachsnow/jquery-mentions-input
- *
+ * 
  * License: MIT License - http://www.opensource.org/licenses/mit-license.php
  */
 (function ($, _, undefined) {
@@ -153,7 +153,7 @@
       elmMentionsOverlay = $(settings.templates.mentionsOverlay());
       elmMentionsOverlay.prependTo(elmWrapperBox);
     }
-
+    
 
     function saveCursorPosition(e) {
       cursorEndPosition = utils.getCaratPosition(e.target);
@@ -161,7 +161,7 @@
 
     function updateValues() {
       var initialMessage = getInputBoxValue();
-
+      
       var syntaxMessage = '';
       var index = 0;
       _.each(mentionsCollection, function (mention) {
@@ -171,10 +171,10 @@
         if (mentionIndex === -1) {
           return;
         }
-
+        
         syntaxMessage += initialMessage.substr(index, mentionIndex - index);
         syntaxMessage += textSyntax;
-
+         
         index = mentionIndex + mention.value.length;
       });
       syntaxMessage += initialMessage.substr(index);
@@ -207,7 +207,7 @@
         if(!mention.value){
           return true;
         }
-
+        
         // Expect to find the mention in the right place.
         return inputText.indexOf(mention.value) === false;
       });
@@ -369,7 +369,7 @@
           }
 
           break;
-
+        
         case KEY.ESC:
           hideAutoComplete();
           return false;
@@ -433,8 +433,6 @@
         elmListItem = elmListItem.appendTo(elmDropDownList);
       });
 
-      elmInputBox.trigger('mentionsPopulated', {'results': results});
-
       elmAutocompleteList.show();
       elmDropDownList.show();
     }
@@ -474,7 +472,7 @@
         initTextarea();
         initAutocomplete();
         initMentionsOverlay();
-
+        
         var initialText = getInputBoxValue();
         if(initialText){
           mentionsInput.set(initialText);
@@ -483,7 +481,7 @@
 
       val : function (callback) {
         var value = mentionsCollection.length ? elmInputBox.data('messageText') : getInputBoxValue();
-
+        
         if (!_.isFunction(callback)) {
           return value;
         }
@@ -496,13 +494,13 @@
         mentionsCollection = [];
         updateValues();
       },
-
+      
       set : function(initialText){
         var syntaxMessage = initialText.replace(settings.mentionItemRegex, '$1');
         elmInputBox.val(syntaxMessage);
-
+        
         mentionsCollection = [];
-
+        
         var match;
         var extra = 0;
         while(match = settings.mentionItemRegex.exec(initialText)){
@@ -515,10 +513,10 @@
             id: id,
             index: match.index - extra
           });
-
+          
           extra += (match[0].length - value.length);
         }
-
+        
         updateValues();
       },
 
@@ -530,7 +528,7 @@
         callback.call(this, mentionsCollection);
       }
     };
-
+    
     return mentionsInput;
   };
 
@@ -548,10 +546,10 @@
       if(!instance){
         return;
       }
-
+      
       return instance[method].apply(first, outerArguments);
     }
-
+    
     return this.each(function () {
       var instance = $.data(this, 'mentionsInput') || $.data(this, 'mentionsInput', new MentionsInput(this));
       return instance.init.call(this, settings);
